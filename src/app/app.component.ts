@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ChatService } from './chat.service';
 
 @Component({
@@ -6,34 +6,35 @@ import { ChatService } from './chat.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'chat';
 
-  public users: number = 0;
-  public message: string = '';
-  public messages: string[] = [];
+  chat: any[] = [];
+  users = 0;
+  message = '';
 
-  constructor(private chatService: ChatService){
+  constructor(private chatService: ChatService) {
 
   }
 
-  ngOnInit(){
+  ngOnInit() {
 
-    this.chatService.receiveChat().subscribe((message: string) => {
-      console.log(message);
-      this.messages.push(message);
+    this.chatService.receiveChat().subscribe((message: any) => {
+      this.chat.push(message);
     });
 
     this.chatService.getUsers().subscribe((users: number) => {
-      console.log(users);
+      console.log('users??', users);
       this.users = users;
     });
 
   }
 
-  addChat(){
-    this.messages.push(this.message);
-    this.chatService.sendChat(this.message);
-    this.message = '';
+  sendMessage() {
+    if (this.message !== '') {
+      this.chat.push({user: 'Me', msg: this.message});
+      this.chatService.sendChat({user: 'Michael', msg: this.message});
+      this.message = '';
+    }
   }
 }

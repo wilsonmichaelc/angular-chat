@@ -4,19 +4,17 @@ import { Socket } from 'ngx-socket-io';
 @Injectable()
 export class ChatService {
 
-  constructor(private socket: Socket) { 
+  constructor(private socket: Socket) { }
 
+  sendChat(message) {
+    this.socket.emit('message', message);
   }
 
-  sendChat(message){
-    this.socket.emit('chat', message);
+  receiveChat() {
+    return this.socket.fromEvent('message');
   }
 
-  receiveChat(){
-    return this.socket.fromEvent('chat');
-  }
-
-  getUsers(){
+  getUsers() {
     return this.socket.fromEvent('users');
   }
 

@@ -3,9 +3,16 @@
   <h1>
     Welcome to {{ title }}!
   </h1>
-
-  <textarea name="chat" [(ngModel)]="message" id="" cols="30" rows="10"></textarea>
-  <button type="button" (click)="addChat()">Send</button>
+  
+  <div id="chatBox">
+    <div *ngFor="let m of chat">
+        <p *ngIf="m.user === 'Me'">{{m.user[0]}} --> {{m.msg}}</p>
+        <p *ngIf="m.user !== 'Me'">{{m.msg}} <-- {{m.user[0]}}</p>
+    </div>
+  </div>
+  
+  <input type="text" [(ngModel)]="message" />
+  <button type="button" (click)="sendMessage()">Send</button>
 </div>
 
 
